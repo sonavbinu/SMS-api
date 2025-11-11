@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const getServerUrl = () => {
     if (NODE_ENV === 'production') {
-        return (process.env.RENDER_EXTERNAL_URL || 'https://your-app-name.onrender.com');
+        return (process.env.RENDER_EXTERNAL_URL || 'https://sms-api-ne6y.onrender.com');
     }
     return `http://localhost:${PORT}`;
 };
