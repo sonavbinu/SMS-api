@@ -16,7 +16,7 @@ exports.sendOTPViaSMS = exports.sendSMS = void 0;
 const axios_1 = __importDefault(require("axios"));
 const helpers_1 = require("../utils/helpers");
 const FAST2SMS_API_KEY = (0, helpers_1.getEnvVariable)('FAST2SMS_API_KEY');
-const FAST2SMS_BASE_URL = 'https://www.fast2sms.com.dev/bulkV2';
+const FAST2SMS_BASE_URL = 'https://www.fast2sms.com/dev/bulkV2';
 const sendSMS = (numbers_1, message_1, ...args_1) => __awaiter(void 0, [numbers_1, message_1, ...args_1], void 0, function* (numbers, message, route = 'q') {
     try {
         const response = yield axios_1.default.get(FAST2SMS_BASE_URL, {

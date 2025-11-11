@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getEnvVariable } from '../utils/helpers';
 
 const FAST2SMS_API_KEY = getEnvVariable('FAST2SMS_API_KEY');
-const FAST2SMS_BASE_URL = 'https://www.fast2sms.com.dev/bulkV2';
+const FAST2SMS_BASE_URL = 'https://www.fast2sms.com/dev/bulkV2';
 
 export const sendSMS = async (
   numbers: string | string[],
