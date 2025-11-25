@@ -134,7 +134,11 @@ router.post('/verify-otp', smsController.verifyOTP.bind(smsController));
  *       429:
  *         description: Too many requests
  */
-router.post('/send-alert', smsLimiter, smsController.sendAlert.bind(smsController));
+router.post(
+  '/send-alert',
+  smsLimiter,
+  smsController.sendAlert.bind(smsController)
+);
 
 /**
  * @swagger
@@ -179,7 +183,11 @@ router.post('/send-alert', smsLimiter, smsController.sendAlert.bind(smsControlle
  *       429:
  *         description: Too many requests
  */
-router.post('/send-promotion', smsLimiter, smsController.sendPromotion.bind(smsController));
+router.post(
+  '/send-promotion',
+  smsLimiter,
+  smsController.sendPromotion.bind(smsController)
+);
 
 /**
  * @swagger
@@ -234,4 +242,3 @@ router.post('/send-promotion', smsLimiter, smsController.sendPromotion.bind(smsC
 router.get('/logs', smsController.getLogs.bind(smsController));
 
 export default router;
-
