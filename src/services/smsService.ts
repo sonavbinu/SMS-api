@@ -1,4 +1,4 @@
-import { sendSMS, sendOTPViaSMS } from '../config/fast2sms';
+import { sendSMSViaTwilio, sendOTPViaTwilio } from '../config/twilio';
 import { SmsLog } from '../models/SmsLog';
 import { Otp } from '../models/Otp';
 import { generateOTP, formatPhoneNumber } from '../utils/otpGenerator';
@@ -10,7 +10,6 @@ export class SmsService {
     phoneNumber: string
   ): Promise<{ success: boolean; message: string; otp?: string }> {
     try {
-      // Format phone number (remove +91, spaces, etc.)
       const formattedNumber = formatPhoneNumber(phoneNumber);
 
       // Delete any existing OTPs for this number
@@ -35,21 +34,20 @@ export class SmsService {
         attempts: 0,
       });
 
-      // Send SMS via Fast2SMS
-      const response = await sendOTPViaSMS(formattedNumber, otp);
+      // Send SMS via Twilio
+      const response = await sendOTPViaTwilio(formattedNumber, otp);
 
-      // Log SMS
       await SmsLog.create({
         phoneNumber: formattedNumber,
         message: `OTP: ${otp}`,
         type: 'OTP',
-        status: response.return ? 'sent' : 'failed',
-        twilioSid: response.request_id,
+        status: response.success ? 'sent' : 'failed',
+        twilioSid: response.sid,
       });
 
       return {
-        success: response.return === true,
-        message: response.return
+        success: response.success,
+        message: response.success
           ? 'OTP sent successfully'
           : 'Failed to send OTP',
         otp: process.env.NODE_ENV === 'development' ? otp : undefined,
@@ -59,7 +57,6 @@ export class SmsService {
 
       console.error(error);
 
-      // Log failed SMS
       await SmsLog.create({
         phoneNumber: formattedNumber,
         message: 'OTP send failed',
@@ -91,13 +88,11 @@ export class SmsService {
         return { success: false, message: 'OTP not found or already verified' };
       }
 
-      // Check if OTP is expired
       if (new Date() > otpRecord.expiresAt) {
         await Otp.deleteOne({ _id: otpRecord._id });
         return { success: false, message: 'OTP has expired' };
       }
 
-      // Check attempts
       if (otpRecord.attempts >= 3) {
         await Otp.deleteOne({ _id: otpRecord._id });
         return {
@@ -106,7 +101,6 @@ export class SmsService {
         };
       }
 
-      // Verify OTP
       if (otpRecord.otp !== otp) {
         otpRecord.attempts += 1;
         await otpRecord.save();
@@ -116,7 +110,6 @@ export class SmsService {
         };
       }
 
-      // Mark as verified
       otpRecord.verified = true;
       await otpRecord.save();
 
@@ -138,19 +131,19 @@ export class SmsService {
       const formattedNumber = formatPhoneNumber(phoneNumber);
       const message = `ALERT: ${alertMessage}`;
 
-      const response = await sendSMS(formattedNumber, message, 'q');
+      const response = await sendSMSViaTwilio(formattedNumber, message);
 
       await SmsLog.create({
         phoneNumber: formattedNumber,
         message,
         type: 'ALERT',
-        status: response.return ? 'sent' : 'failed',
-        twilioSid: response.request_id,
+        status: response.success ? 'sent' : 'failed',
+        twilioSid: response.sid,
       });
 
       return {
-        success: response.return === true,
-        message: response.return
+        success: response.success,
+        message: response.success
           ? 'Alert sent successfully'
           : 'Failed to send alert',
       };
@@ -179,21 +172,21 @@ export class SmsService {
   ): Promise<{ success: boolean; message: string }> {
     try {
       const formattedNumber = formatPhoneNumber(phoneNumber);
-      const message = `${promotionMessage}`;
+      const message = promotionMessage;
 
-      const response = await sendSMS(formattedNumber, message, 'q');
+      const response = await sendSMSViaTwilio(formattedNumber, message);
 
       await SmsLog.create({
         phoneNumber: formattedNumber,
         message,
         type: 'PROMOTION',
-        status: response.return ? 'sent' : 'failed',
-        twilioSid: response.request_id,
+        status: response.success ? 'sent' : 'failed',
+        twilioSid: response.sid,
       });
 
       return {
-        success: response.return === true,
-        message: response.return
+        success: response.success,
+        message: response.success
           ? 'Promotion sent successfully'
           : 'Failed to send promotion',
       };
