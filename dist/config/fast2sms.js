@@ -20,7 +20,7 @@ const FAST2SMS_BASE_URL = 'https://www.fast2sms.com/dev/bulkV2';
 const sendSMS = (numbers_1, message_1, ...args_1) => __awaiter(void 0, [numbers_1, message_1, ...args_1], void 0, function* (numbers, message, route = 'q') {
     try {
         const response = yield axios_1.default.get(FAST2SMS_BASE_URL, {
-            params: {
+            headers: {
                 authorization: FAST2SMS_API_KEY,
                 route: route,
                 message: message,
@@ -36,9 +36,10 @@ const sendSMS = (numbers_1, message_1, ...args_1) => __awaiter(void 0, [numbers_
 });
 exports.sendSMS = sendSMS;
 const sendOTPViaSMS = (numbers, otp) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b, _c;
     try {
-        const response = yield axios_1.default.get(FAST2SMS_BASE_URL, {
-            params: {
+        const response = yield axios_1.default.post(FAST2SMS_BASE_URL, {
+            headers: {
                 authorization: FAST2SMS_API_KEY,
                 route: 'otp',
                 variables_values: otp,
@@ -48,7 +49,8 @@ const sendOTPViaSMS = (numbers, otp) => __awaiter(void 0, void 0, void 0, functi
         return response.data;
     }
     catch (error) {
-        throw new Error(`Fast2SMS OTP Error: ${error.message}`);
+        console.error('Fast2SMS OTP Error:', ((_a = error.response) === null || _a === void 0 ? void 0 : _a.data) || error.message);
+        throw new Error(`Fast2SMS OTP Error: ${((_c = (_b = error.response) === null || _b === void 0 ? void 0 : _b.data) === null || _c === void 0 ? void 0 : _c.message) || error.message}`);
     }
 });
 exports.sendOTPViaSMS = sendOTPViaSMS;

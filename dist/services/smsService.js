@@ -58,6 +58,7 @@ class SmsService {
             }
             catch (error) {
                 const formattedNumber = (0, otpGenerator_1.formatPhoneNumber)(phoneNumber);
+                console.error(error);
                 // Log failed SMS
                 yield SmsLog_1.SmsLog.create({
                     phoneNumber: formattedNumber,

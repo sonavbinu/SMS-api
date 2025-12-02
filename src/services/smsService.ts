@@ -57,6 +57,8 @@ export class SmsService {
     } catch (error: any) {
       const formattedNumber = formatPhoneNumber(phoneNumber);
 
+      console.error(error);
+
       // Log failed SMS
       await SmsLog.create({
         phoneNumber: formattedNumber,

@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './config/swagger';
 import smsRoutes from './routes/smsRoutes';
+import dotenv from 'dotenv';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -13,6 +14,7 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 
 // Connect Database
 connectDB();
+dotenv.config();
 
 // Middlewares
 app.use(

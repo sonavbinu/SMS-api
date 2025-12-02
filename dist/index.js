@@ -20,11 +20,13 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const swagger_1 = require("./config/swagger");
 const smsRoutes_1 = __importDefault(require("./routes/smsRoutes"));
+const dotenv_1 = __importDefault(require("dotenv"));
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 3000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 // Connect Database
 (0, db_1.connectDB)();
+dotenv_1.default.config();
 // Middlewares
 app.use((0, cors_1.default)({
     origin: NODE_ENV === 'production'

@@ -22,12 +22,17 @@ class SmsController {
       if (!validatePhoneNumber(phoneNumber)) {
         res.status(400).json({
           success: false,
-          message: 'Invalid phone number. Please provide a valid 10-digit Indian phone number',
+          message:
+            'Invalid phone number. Please provide a valid 10-digit Indian phone number',
         });
         return;
       }
 
       const result = await smsService.sendOTP(phoneNumber);
+      if (!result.success) {
+        res.status(400).json(result);
+        return;
+      }
 
       res.status(200).json({
         success: true,
@@ -195,4 +200,3 @@ class SmsController {
 }
 
 export const smsController = new SmsController();
-

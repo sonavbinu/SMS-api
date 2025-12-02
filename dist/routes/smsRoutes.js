@@ -22,7 +22,7 @@ const router = (0, express_1.Router)();
  *               phoneNumber:
  *                 type: string
  *                 description: 10-digit Indian phone number
- *                 example: "9876543210"
+ *                 example: "9745918567"
  *     responses:
  *       200:
  *         description: OTP sent successfully
@@ -108,7 +108,7 @@ router.post('/verify-otp', smsController_1.smsController.verifyOTP.bind(smsContr
  *               phoneNumber:
  *                 type: string
  *                 description: 10-digit Indian phone number
- *                 example: "9876543210"
+ *                 example: "9745918567"
  *               message:
  *                 type: string
  *                 description: Alert message to send
@@ -152,7 +152,7 @@ router.post('/send-alert', rateLimiter_1.smsLimiter, smsController_1.smsControll
  *               phoneNumber:
  *                 type: string
  *                 description: 10-digit Indian phone number
- *                 example: "9876543210"
+ *                 example: "9745918567"
  *               message:
  *                 type: string
  *                 description: Promotional message to send
@@ -189,7 +189,7 @@ router.post('/send-promotion', rateLimiter_1.smsLimiter, smsController_1.smsCont
  *         schema:
  *           type: string
  *         description: Filter logs by phone number
- *         example: "9876543210"
+ *         example: "9745918567"
  *       - in: query
  *         name: limit
  *         schema:

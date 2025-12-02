@@ -22,7 +22,7 @@ const router = Router();
  *               phoneNumber:
  *                 type: string
  *                 description: 10-digit Indian phone number
- *                 example: "9876543210"
+ *                 example: "9745918567"
  *     responses:
  *       200:
  *         description: OTP sent successfully
@@ -110,7 +110,7 @@ router.post('/verify-otp', smsController.verifyOTP.bind(smsController));
  *               phoneNumber:
  *                 type: string
  *                 description: 10-digit Indian phone number
- *                 example: "9876543210"
+ *                 example: "9745918567"
  *               message:
  *                 type: string
  *                 description: Alert message to send
@@ -159,7 +159,7 @@ router.post(
  *               phoneNumber:
  *                 type: string
  *                 description: 10-digit Indian phone number
- *                 example: "9876543210"
+ *                 example: "9745918567"
  *               message:
  *                 type: string
  *                 description: Promotional message to send
@@ -201,7 +201,7 @@ router.post(
  *         schema:
  *           type: string
  *         description: Filter logs by phone number
- *         example: "9876543210"
+ *         example: "9745918567"
  *       - in: query
  *         name: limit
  *         schema:

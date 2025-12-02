@@ -11,7 +11,7 @@ export const sendSMS = async (
 ) => {
   try {
     const response = await axios.get(FAST2SMS_BASE_URL, {
-      params: {
+      headers: {
         authorization: FAST2SMS_API_KEY,
         route: route,
         message: message,
@@ -31,9 +31,10 @@ export const sendOTPViaSMS = async (
   otp: string
 ) => {
   try {
-    const response = await axios.get(FAST2SMS_BASE_URL, {
-      params: {
+    const response = await axios.post(FAST2SMS_BASE_URL, {
+      headers: {
         authorization: FAST2SMS_API_KEY,
+
         route: 'otp',
         variables_values: otp,
         numbers: Array.isArray(numbers) ? numbers.join(',') : numbers,
@@ -41,6 +42,9 @@ export const sendOTPViaSMS = async (
     });
     return response.data;
   } catch (error: any) {
-    throw new Error(`Fast2SMS OTP Error: ${error.message}`);
+    console.error('Fast2SMS OTP Error:', error.response?.data || error.message);
+    throw new Error(
+      `Fast2SMS OTP Error: ${error.response?.data?.message || error.message}`
+    );
   }
 };
