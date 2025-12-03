@@ -104,6 +104,14 @@ class SmsService {
                 }
                 otpRecord.verified = true;
                 yield otpRecord.save();
+                const response = yield (0, twilio_1.sendSMSViaTwilio)(formattedNumber, 'Your OTP was verified successfully!');
+                yield SmsLog_1.SmsLog.create({
+                    phoneNumber: formattedNumber,
+                    message: 'OTP verified successfully',
+                    type: 'VERIFY',
+                    status: response.success ? 'sent' : 'failed',
+                    twilioSid: response.sid,
+                });
                 return { success: true, message: 'OTP verified successfully' };
             }
             catch (error) {
