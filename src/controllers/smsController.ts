@@ -74,6 +74,7 @@ class SmsController {
       }
 
       const isValid = await smsService.verifyOTP(phoneNumber, otp);
+      res.json(isValid);
 
       if (isValid) {
         res.status(200).json({

@@ -108,7 +108,7 @@ class SmsService {
                 yield SmsLog_1.SmsLog.create({
                     phoneNumber: formattedNumber,
                     message: 'OTP verified successfully',
-                    type: 'VERIFY',
+                    type: 'OTP',
                     status: response.success ? 'sent' : 'failed',
                     twilioSid: response.sid,
                 });
